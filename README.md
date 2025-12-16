@@ -1,16 +1,50 @@
 # Student Management REST API
 
-A complete REST API for student management built with Java Servlets, MySQL, and modern HTML/CSS/JavaScript interface. Designed for deployment on WildFly application server.
+A complete REST API for student management built with Java Servlets, MySQL, and modern HTML/CSS/JavaScript interface. Designed for deployment on WildFly application server with **3-tier architecture** for maintainability and scalability.
 
 ## 🎯 Features
 
+- **3-Tier Architecture**: Clear separation between Presentation, Business Logic, and Data Access layers
 - **Complete CRUD Operations**: Create, Read, Update, and Delete students
 - **REST API**: Clean REST endpoints with JSON responses
+- **Business Validation**: Comprehensive input validation (names, dates, data integrity)
 - **Modern Web Interface**: Responsive HTML/CSS/JavaScript interface with AJAX
 - **Secure**: Uses PreparedStatements to prevent SQL injection
 - **CORS Support**: Cross-origin resource sharing enabled
 - **MySQL Database**: Persistent storage with MySQL
 - **WildFly Compatible**: Ready for deployment on WildFly server
+
+## 🏛️ Architecture
+
+This project follows a **3-tier architecture** pattern:
+
+### TIER 1: Presentation Layer (`controller/`)
+- **StudentController**: Handles HTTP requests/responses
+- Responsibilities: Parse requests, format JSON responses, set HTTP status codes
+- **No business logic or database access**
+
+### TIER 2: Business Logic Layer (`service/`)
+- **StudentService** (interface) and **StudentServiceImpl**
+- Responsibilities: Business validation, data integrity checks, transaction coordination
+- Validates: Names (not null, not empty, max 100 chars), dates (not in future), entity existence
+- **No direct database access or HTTP handling**
+
+### TIER 3: Data Access Layer (`dao/`)
+- **StudentDAO** (interface) and **StudentDAOImpl**
+- Responsibilities: Execute SQL queries, map ResultSet to objects, resource management
+- Uses PreparedStatements for security
+- **No business logic or validation**
+
+### Supporting Components
+- **model/Student**: Entity/POJO representing a student
+- **dto/ApiResponse**: Generic response wrapper for consistent API responses
+- **util/DatabaseConnection**: Database connection utility
+
+### Design Principles
+- ✅ Separation of Concerns
+- ✅ Dependency Inversion (depends on interfaces)
+- ✅ Single Responsibility
+- ✅ Loose Coupling (one-way: Controller → Service → DAO)
 
 ## 📋 Prerequisites
 
@@ -166,11 +200,18 @@ Features:
 StudentWebSocket/
 ├── src/main/
 │   ├── java/
+│   │   ├── controller/
+│   │   │   └── StudentController.java  # REST API controller (Tier 1)
+│   │   ├── service/
+│   │   │   ├── StudentService.java     # Service interface
+│   │   │   └── StudentServiceImpl.java # Business logic (Tier 2)
 │   │   ├── dao/
-│   │   │   ├── Student.java          # Entity class
-│   │   │   └── StudentDAO.java       # Data Access Object
-│   │   ├── servlet/
-│   │   │   └── StudentServlet.java   # REST API servlet
+│   │   │   ├── StudentDAO.java         # DAO interface
+│   │   │   └── StudentDAOImpl.java     # Data Access (Tier 3)
+│   │   ├── model/
+│   │   │   └── Student.java            # Entity/POJO
+│   │   ├── dto/
+│   │   │   └── ApiResponse.java        # Response wrapper
 │   │   └── util/
 │   │       └── DatabaseConnection.java # Database utility
 │   └── webapp/
