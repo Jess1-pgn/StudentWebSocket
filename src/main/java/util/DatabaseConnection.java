@@ -6,6 +6,8 @@ import java.sql.SQLException;
 
 public class DatabaseConnection {
     
+    // TODO: For production use, replace these hardcoded values with environment variables
+    // or external configuration file for better security
     private static final String URL = "jdbc:mysql://localhost:3306/studentdb";
     private static final String USER = "root";
     private static final String PASSWORD = "root";

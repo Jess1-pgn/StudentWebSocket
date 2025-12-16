@@ -13,7 +13,6 @@ public class Student {
 	
 	public Student() {
 		super();
-		// TODO Auto-generated constructor stub
 	}
 	public Student(String firstNameStudent, String lastNameStudent, Date dateBirthStudent) {
 		super();
