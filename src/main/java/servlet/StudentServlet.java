@@ -228,6 +228,8 @@ public class StudentServlet extends HttpServlet {
 
     /**
      * Sets CORS headers for cross-origin requests.
+     * Note: Access-Control-Allow-Origin is set to '*' for development/testing.
+     * In production, restrict to specific trusted domains for security.
      */
     private void setCorsHeaders(HttpServletResponse response) {
         response.setHeader("Access-Control-Allow-Origin", "*");
